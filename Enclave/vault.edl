@@ -1,0 +1,28 @@
+enclave
+{
+	trusted
+	{
+		public int get_secret([in, string] char* provided_password, [out, size=len] char* out_secret, size_t len);
+		public int set_password([in, string] char* provided_password, [in, string] char* new_password);
+		public int set_secret([in, string] char* provided_password, [in, string] char* new_secret);
+		public int get_number_of_tries_left(void);
+
+		public char* get_correct_password_address(void);
+		public int get_secret_attack([in, string] char *provided_password, uint64_t out, size_t len);
+
+		public void* get_handle_correct_guess_address(void);
+		public void* get_handle_incorrect_guess_address(void);
+	};
+
+	untrusted {
+		void print_ocall([in, string] char* str);
+
+		void write_password_data([in, size=bloblen] uint8_t *blob, uint32_t bloblen);
+		void write_secret_data([in, size=bloblen] uint8_t *blob, uint32_t bloblen);
+		void write_tries_left_data([in, size=bloblen] uint8_t *blob, uint32_t bloblen);
+
+		int read_password_data([out, size=bloblen_in] uint8_t *blob, uint32_t bloblen_in, [out] uint32_t *bloblen_out);
+		int read_secret_data([out, size=bloblen_in] uint8_t *blob, uint32_t bloblen_in, [out] uint32_t *bloblen_out);
+		int read_tries_left_data([out, size=bloblen_in] uint8_t *blob, uint32_t bloblen_in, [out] uint32_t *bloblen_out);
+	};
+};
